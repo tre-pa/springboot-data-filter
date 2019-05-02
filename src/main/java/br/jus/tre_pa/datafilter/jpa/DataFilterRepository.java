@@ -18,7 +18,7 @@ import br.jus.tre_pa.datafilter.Projectable;
  *
  * @param <T>
  */
-public interface JiiRepository<T> {
+public interface DataFilterRepository<T> {
 
 	Page<T> findAll(Class<T> entityClass, Pageable pageable, Projectable projectable, Class<? extends AbstractSpecification<T>> specificationClass, Payload payload);
 

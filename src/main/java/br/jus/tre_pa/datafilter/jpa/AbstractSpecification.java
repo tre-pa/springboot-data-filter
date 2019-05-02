@@ -17,7 +17,7 @@ import br.jus.tre_pa.datafilter.Filterable;
 import lombok.Getter;
 
 /**
- * Classe jii de Specification.
+ * Classe abstrata de Specification.
  *
  */
 @Getter
@@ -31,14 +31,14 @@ public abstract class AbstractSpecification<T> {
 	}
 
 	/**
-	 * Specification variável com os predicados definidos pelo usuário via JiiFilterable.
+	 * Specification variável com os predicados definidos pelo usuário via Filterable.
 	 * 
 	 * @param entityClass Entidade alvo da Specification
-	 * @param filterable  Classe JiiFilterable com os predicados definidos pelo usuário.
+	 * @param filterable  Classe Filterable com os predicados definidos pelo usuário.
 	 * @return Specification
 	 */
 	@SuppressWarnings("serial")
-	public Specification<T> variableSpecification(Class<T> entityClass, Filterable filterable) {
+	public Specification<T> variable(Class<T> entityClass, Filterable filterable) {
 		return new Specification<T>() {
 
 			@Override
@@ -54,7 +54,7 @@ public abstract class AbstractSpecification<T> {
 	 * @return
 	 */
 	@SuppressWarnings("serial")
-	public Specification<T> fixedSpecification() {
+	public Specification<T> fixed() {
 		return new Specification<T>() {
 			@Override
 			public Predicate toPredicate(Root<T> root, CriteriaQuery<?> query, CriteriaBuilder criteriaBuilder) {

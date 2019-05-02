@@ -37,13 +37,13 @@ import br.jus.tre_pa.datafilter.Payload;
 import br.jus.tre_pa.datafilter.Projectable;
 import br.jus.tre_pa.datafilter.TriFunction;
 import br.jus.tre_pa.datafilter.jpa.AttributePath;
-import br.jus.tre_pa.datafilter.jpa.JiiRepository;
+import br.jus.tre_pa.datafilter.jpa.DataFilterRepository;
 import br.jus.tre_pa.datafilter.jpa.AbstractSpecification;
 import lombok.SneakyThrows;
 
 @Repository
 @Transactional(readOnly = true)
-public class JiiRepositoryImpl<T> implements JiiRepository<T> {
+public class DataFilterRepositoryImpl<T> implements DataFilterRepository<T> {
 
 	@PersistenceContext
 	private EntityManager entityManager;
@@ -143,7 +143,7 @@ public class JiiRepositoryImpl<T> implements JiiRepository<T> {
 	private Specification<T> getSpecification(Class<T> entityClass, Class<? extends AbstractSpecification<T>> specificationClass, Payload payload) {
 		if (Objects.nonNull(payload) && Objects.nonNull(payload.getFilterable())) {
 			AbstractSpecification<T> specification = applicationContext.getBean(specificationClass);
-			return specification.fixedSpecification().and(specification.variableSpecification(entityClass, payload.getFilterable()));
+			return specification.fixed().and(specification.variable(entityClass, payload.getFilterable()));
 		}
 		return null;
 	}
