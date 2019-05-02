@@ -25,11 +25,11 @@ import br.jus.tre_pa.datafilter.jpa.DataFilterRepository;
  * 
  * @author jcruz
  *
- * @param <T> Entidade JPA.
+ * @param <T>  Entidade JPA.
  * @param <ID> Tipo do atributo identificador.
- * @param <R> Classe repository.
+ * @param <R>  Classe repository.
  */
-public abstract class AbstractCrudRest<T, ID, R extends JpaRepository<T, ID> & DataFilterRepository<T>> extends AbstractDataFilterRest<T, ID, AbstractSpecification<T>, R> {
+public abstract class AbstractCrudRest<T, ID, S extends AbstractSpecification<T>, R extends JpaRepository<T, ID> & DataFilterRepository<T>> extends AbstractDataFilterRest<T, ID, S, R> {
 	/**
 	 * Retorna a listagem paginada de recursos
 	 * 
