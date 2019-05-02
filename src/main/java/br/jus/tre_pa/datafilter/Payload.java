@@ -2,7 +2,6 @@ package br.jus.tre_pa.datafilter;
 
 import java.util.Objects;
 
-import br.jus.tre_pa.datafilter.Filterable.EmptyFilterable;
 import lombok.Getter;
 import lombok.Setter;
 
