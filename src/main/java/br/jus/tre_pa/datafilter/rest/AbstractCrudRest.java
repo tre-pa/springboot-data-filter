@@ -21,12 +21,20 @@ import com.fasterxml.jackson.annotation.JsonView;
 import br.jus.tre_pa.datafilter.jpa.AbstractSpecification;
 import br.jus.tre_pa.datafilter.jpa.DataFilterRepository;
 
+/**
+ * 
+ * @author jcruz
+ *
+ * @param <T> Entidade JPA.
+ * @param <ID> Tipo do atributo identificador.
+ * @param <R> Classe repository.
+ */
 public abstract class AbstractCrudRest<T, ID, R extends JpaRepository<T, ID> & DataFilterRepository<T>> extends AbstractDataFilterRest<T, ID, AbstractSpecification<T>, R> {
 	/**
 	 * Retorna a listagem paginada de recursos
 	 * 
-	 * @param pageable
-	 * @return
+	 * @param pageable Informações de paginação.
+	 * @return Objeto page.
 	 */
 	@GetMapping
 	public ResponseEntity<Page<T>> findAll(Pageable pageable) {
@@ -36,8 +44,8 @@ public abstract class AbstractCrudRest<T, ID, R extends JpaRepository<T, ID> & D
 	/**
 	 * Retorna um recurso específico.
 	 * 
-	 * @param id
-	 * @return
+	 * @param id Identificador do recurso.
+	 * @return Entidade gerenciada.
 	 */
 	@GetMapping(path = "/{id}")
 	@JsonView(Views.Default.class)
@@ -48,8 +56,8 @@ public abstract class AbstractCrudRest<T, ID, R extends JpaRepository<T, ID> & D
 	/**
 	 * Retorna um recurso específico detalhado.
 	 * 
-	 * @param id
-	 * @return
+	 * @param id Identificador do recurso.
+	 * @return Entidade gerenciada.
 	 */
 	@GetMapping(path = "/{id}/detail")
 	@JsonView(Views.Detail.class)
@@ -72,7 +80,7 @@ public abstract class AbstractCrudRest<T, ID, R extends JpaRepository<T, ID> & D
 	/**
 	 * Atualiza um recurso
 	 *
-	 * @param recurso
+	 * @param recurso Recurso para atualização.
 	 * @return Entidade gerenciada.
 	 */
 	@PutMapping(path = "/{id}")
@@ -82,9 +90,9 @@ public abstract class AbstractCrudRest<T, ID, R extends JpaRepository<T, ID> & D
 	}
 
 	/**
-	 * Deleta umn recurso
+	 * Deleta um recurso
 	 *
-	 * @param id
+	 * @param id Identificador do recurso.
 	 */
 	@DeleteMapping(path = "/{id}")
 	@ResponseStatus(HttpStatus.NO_CONTENT)

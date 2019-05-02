@@ -23,10 +23,10 @@ import lombok.Getter;
  * 
  * @author jcruz
  *
- * @param <T>
- * @param <ID>
- * @param <S>
- * @param <R>
+ * @param <T> Entidade JPA.
+ * @param <ID> Tipo do atributo identificador.
+ * @param <S> Classe de specification.
+ * @param <R> Classe de repository.
  */
 public abstract class AbstractDataFilterRest<T, ID, S extends AbstractSpecification<T>, R extends JpaRepository<T, ID> & DataFilterRepository<T>> {
 
