@@ -14,7 +14,7 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public abstract class BasePredicate extends Expression {
+public abstract class AbstractPredicate extends Expression {
 	private String dataField;
 	private Object value;
 

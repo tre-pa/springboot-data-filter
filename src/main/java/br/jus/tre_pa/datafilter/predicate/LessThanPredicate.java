@@ -21,7 +21,7 @@ import br.jus.tre_pa.datafilter.jpa.AttributePath;
  * @author jcruz
  *
  */
-public class LessThanPredicate extends BasePredicate {
+public class LessThanPredicate extends AbstractPredicate {
 
 	@Override
 	public String toSql() {

@@ -23,7 +23,6 @@ import javax.persistence.criteria.Selection;
 import org.apache.commons.beanutils.PropertyUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
-import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
@@ -33,13 +32,13 @@ import org.springframework.transaction.annotation.Transactional;
 import br.jus.tre_pa.datafilter.Aggregable;
 import br.jus.tre_pa.datafilter.Aggregable.Operation;
 import br.jus.tre_pa.datafilter.Aggregation;
-import br.jus.tre_pa.datafilter.JiiPage;
+import br.jus.tre_pa.datafilter.Page;
 import br.jus.tre_pa.datafilter.Payload;
 import br.jus.tre_pa.datafilter.Projectable;
 import br.jus.tre_pa.datafilter.TriFunction;
 import br.jus.tre_pa.datafilter.jpa.AttributePath;
 import br.jus.tre_pa.datafilter.jpa.JiiRepository;
-import br.jus.tre_pa.datafilter.jpa.JiiSpecification;
+import br.jus.tre_pa.datafilter.jpa.AbstractSpecification;
 import lombok.SneakyThrows;
 
 @Repository
@@ -65,7 +64,7 @@ public class JiiRepositoryImpl<T> implements JiiRepository<T> {
 
 	@Override
 	@SneakyThrows
-	public JiiPage<T> findAll(Class<T> entityClass, Pageable pageable, Projectable projectable, Class<? extends JiiSpecification<T>> specificationClass, Payload payload) {
+	public Page<T> findAll(Class<T> entityClass, Pageable pageable, Projectable projectable, Class<? extends AbstractSpecification<T>> specificationClass, Payload payload) {
 		if (Projectable.hasProjection(projectable)) {
 			CriteriaBuilder cb = entityManager.getCriteriaBuilder();
 			CriteriaQuery<Object[]> cq = cb.createQuery(Object[].class);
@@ -82,9 +81,9 @@ public class JiiRepositoryImpl<T> implements JiiRepository<T> {
 
 //			log.info("Results: {}", results);
 
-			Page<T> page = new PageImpl<T>(results, pageable, Long.class.cast(countAggregation.getResult()));
-			if (Payload.hasAggregable(payload)) return new JiiPage<T>(page, aggregation(entityClass, spec, payload.getAggregables()));
-			return new JiiPage<T>(page);
+			org.springframework.data.domain.Page<T> page = new PageImpl<T>(results, pageable, Long.class.cast(countAggregation.getResult()));
+			if (Payload.hasAggregable(payload)) return new Page<T>(page, aggregation(entityClass, spec, payload.getAggregables()));
+			return new Page<T>(page);
 		}
 		return this.findAll(entityClass, pageable, specificationClass, payload);
 	}
@@ -112,7 +111,7 @@ public class JiiRepositoryImpl<T> implements JiiRepository<T> {
 	 * @param payload
 	 * @return
 	 */
-	private JiiPage<T> findAll(Class<T> entityClass, Pageable pageable, Class<? extends JiiSpecification<T>> specificationClass, Payload payload) {
+	private Page<T> findAll(Class<T> entityClass, Pageable pageable, Class<? extends AbstractSpecification<T>> specificationClass, Payload payload) {
 		CriteriaBuilder cb = entityManager.getCriteriaBuilder();
 		CriteriaQuery<T> cq = cb.createQuery(entityClass);
 		Root<T> root = cq.from(entityClass);
@@ -122,9 +121,9 @@ public class JiiRepositoryImpl<T> implements JiiRepository<T> {
 		TypedQuery<T> q = this.createQuery(cq, pageable);
 		Aggregation countAggregation = this.aggregationTemplate(entityClass, "id", spec, Operation.COUNT);
 
-		Page<T> page = new PageImpl<T>(q.getResultList(), pageable, Long.class.cast(countAggregation.getResult()));
-		if (Payload.hasAggregable(payload)) return new JiiPage<T>(page, aggregation(entityClass, spec, payload.getAggregables()));
-		return new JiiPage<T>(page);
+		org.springframework.data.domain.Page<T> page = new PageImpl<T>(q.getResultList(), pageable, Long.class.cast(countAggregation.getResult()));
+		if (Payload.hasAggregable(payload)) return new Page<T>(page, aggregation(entityClass, spec, payload.getAggregables()));
+		return new Page<T>(page);
 	}
 
 	@Override
@@ -141,9 +140,9 @@ public class JiiRepositoryImpl<T> implements JiiRepository<T> {
 	 * Retorna a Specification associadas a entidade T. O retorna é a união entre os predicados da specification fixa (fixedSpecification) juntamente com os predicados das
 	 * specification variável (variableSpecification).
 	 */
-	private Specification<T> getSpecification(Class<T> entityClass, Class<? extends JiiSpecification<T>> specificationClass, Payload payload) {
+	private Specification<T> getSpecification(Class<T> entityClass, Class<? extends AbstractSpecification<T>> specificationClass, Payload payload) {
 		if (Objects.nonNull(payload) && Objects.nonNull(payload.getFilterable())) {
-			JiiSpecification<T> specification = applicationContext.getBean(specificationClass);
+			AbstractSpecification<T> specification = applicationContext.getBean(specificationClass);
 			return specification.fixedSpecification().and(specification.variableSpecification(entityClass, payload.getFilterable()));
 		}
 		return null;
@@ -159,9 +158,9 @@ public class JiiRepositoryImpl<T> implements JiiRepository<T> {
 	/*
 	 * Prepara a cláusula Order By da consulta.
 	 */
-	private <E> void prepareOrderByDecl(Root<T> root, CriteriaQuery<E> cq, CriteriaBuilder cb, Pageable pageable, Class<? extends JiiSpecification<T>> specificationClass) {
+	private <E> void prepareOrderByDecl(Root<T> root, CriteriaQuery<E> cq, CriteriaBuilder cb, Pageable pageable, Class<? extends AbstractSpecification<T>> specificationClass) {
 		if (Objects.nonNull(specificationClass)) {
-			JiiSpecification<T> specification = applicationContext.getBean(specificationClass);
+			AbstractSpecification<T> specification = applicationContext.getBean(specificationClass);
 			if (Objects.nonNull(pageable) && Objects.nonNull(pageable.getSort())) {
 				// @formatter:off
 				cq.orderBy(pageable.getSort()

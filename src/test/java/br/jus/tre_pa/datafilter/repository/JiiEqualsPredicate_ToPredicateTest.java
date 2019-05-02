@@ -17,7 +17,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 
 import br.jus.tre_pa.datafilter.Filterable;
 import br.jus.tre_pa.datafilter.JiiCoreAppTest;
-import br.jus.tre_pa.datafilter.JiiPage;
+import br.jus.tre_pa.datafilter.Page;
 import br.jus.tre_pa.datafilter.Payload;
 import br.jus.tre_pa.datafilter.Projectable;
 import br.jus.tre_pa.datafilter.domain.Bar;
@@ -75,7 +75,7 @@ public class JiiEqualsPredicate_ToPredicateTest {
 
 		Projectable projectable = new Projectable();
 		projectable.setFields(Arrays.asList("id", "name"));
-		JiiPage<Foo> foos = fooRepository.findAll(Foo.class, PageRequest.of(0, 20), projectable, null, null);
+		Page<Foo> foos = fooRepository.findAll(Foo.class, PageRequest.of(0, 20), projectable, null, null);
 		assertTrue(foos.getPagination().getContent().size() == 2);
 
 		fooRepository.deleteAll();
@@ -96,7 +96,7 @@ public class JiiEqualsPredicate_ToPredicateTest {
 		filterable.getPredicates().add(equalsPredicate);
 		payload.setFilterable(filterable);
 
-		JiiPage<Foo> foos = fooRepository.findAll(Foo.class, PageRequest.of(0, 20), null, FooSpecification.class, payload);
+		Page<Foo> foos = fooRepository.findAll(Foo.class, PageRequest.of(0, 20), null, FooSpecification.class, payload);
 		assertTrue(foos.getPagination().getContent().size() == 1);
 		assertTrue(foos.getPagination().getContent().get(0).getName().equals("Fulano1"));
 
@@ -118,7 +118,7 @@ public class JiiEqualsPredicate_ToPredicateTest {
 		filterable.getPredicates().add(equalsPredicate);
 		payload.setFilterable(filterable);
 
-		JiiPage<Foo> foos = fooRepository.findAll(Foo.class, PageRequest.of(0, 20), null, FooSpecification.class, payload);
+		Page<Foo> foos = fooRepository.findAll(Foo.class, PageRequest.of(0, 20), null, FooSpecification.class, payload);
 		assertTrue(foos.getPagination().getContent().size() == 2);
 
 		fooRepository.deleteAll();
@@ -139,7 +139,7 @@ public class JiiEqualsPredicate_ToPredicateTest {
 		filterable.getPredicates().add(equalsPredicate);
 		payload.setFilterable(filterable);
 
-		JiiPage<Foo> foos = fooRepository.findAll(Foo.class, PageRequest.of(0, 20), null, FooSpecification.class, payload);
+		Page<Foo> foos = fooRepository.findAll(Foo.class, PageRequest.of(0, 20), null, FooSpecification.class, payload);
 		assertTrue(foos.getPagination().getContent().size() == 1);
 		assertTrue(foos.getPagination().getContent().get(0).getName().equals("Fulano1"));
 
@@ -161,7 +161,7 @@ public class JiiEqualsPredicate_ToPredicateTest {
 		filterable.getPredicates().add(equalsPredicate);
 		payload.setFilterable(filterable);
 
-		JiiPage<Foo> foos = fooRepository.findAll(Foo.class, PageRequest.of(0, 20), null, FooSpecification.class, payload);
+		Page<Foo> foos = fooRepository.findAll(Foo.class, PageRequest.of(0, 20), null, FooSpecification.class, payload);
 		assertTrue(foos.getPagination().getContent().size() == 1);
 		assertTrue(foos.getPagination().getContent().get(0).getName().equals("Fulano1"));
 

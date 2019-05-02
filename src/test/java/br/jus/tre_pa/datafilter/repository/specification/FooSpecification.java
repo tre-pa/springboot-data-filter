@@ -5,10 +5,10 @@ import javax.persistence.criteria.JoinType;
 import org.springframework.stereotype.Component;
 
 import br.jus.tre_pa.datafilter.domain.Foo;
-import br.jus.tre_pa.datafilter.jpa.JiiSpecification;
+import br.jus.tre_pa.datafilter.jpa.AbstractSpecification;
 
 @Component
-public class FooSpecification extends JiiSpecification<Foo> {
+public class FooSpecification extends AbstractSpecification<Foo> {
 
 	@Override
 	protected void configure() {

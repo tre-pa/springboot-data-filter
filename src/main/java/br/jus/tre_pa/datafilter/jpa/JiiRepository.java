@@ -7,7 +7,7 @@ import org.springframework.data.jpa.domain.Specification;
 
 import br.jus.tre_pa.datafilter.Aggregable;
 import br.jus.tre_pa.datafilter.Aggregation;
-import br.jus.tre_pa.datafilter.JiiPage;
+import br.jus.tre_pa.datafilter.Page;
 import br.jus.tre_pa.datafilter.Payload;
 import br.jus.tre_pa.datafilter.Projectable;
 
@@ -20,7 +20,7 @@ import br.jus.tre_pa.datafilter.Projectable;
  */
 public interface JiiRepository<T> {
 
-	JiiPage<T> findAll(Class<T> entityClass, Pageable pageable, Projectable projectable, Class<? extends JiiSpecification<T>> specificationClass, Payload payload);
+	Page<T> findAll(Class<T> entityClass, Pageable pageable, Projectable projectable, Class<? extends AbstractSpecification<T>> specificationClass, Payload payload);
 
 	List<Aggregation> aggregation(Class<T> entityClass, Specification<T> specification, Aggregable... aggregables);
 }

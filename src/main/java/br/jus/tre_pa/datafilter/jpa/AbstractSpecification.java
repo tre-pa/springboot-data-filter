@@ -21,7 +21,7 @@ import lombok.Getter;
  *
  */
 @Getter
-public class JiiSpecification<T> {
+public abstract class AbstractSpecification<T> {
 
 	private Map<String, AttributePath> paths = new HashMap<>();
 

@@ -19,7 +19,7 @@ import lombok.extern.slf4j.Slf4j;
  *
  */
 @Slf4j
-public class EqualsPredicate extends BasePredicate {
+public class EqualsPredicate extends AbstractPredicate {
 
 	@Override
 	public String toSql() {

@@ -23,7 +23,7 @@ import br.jus.tre_pa.datafilter.jpa.AttributePath;
  * @author jcruz
  *
  */
-public class GreaterThanOrEqualsToPredicate extends BasePredicate {
+public class GreaterThanOrEqualsToPredicate extends AbstractPredicate {
 
 	@Override
 	public String toSql() {

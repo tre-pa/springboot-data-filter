@@ -16,7 +16,7 @@ import br.jus.tre_pa.datafilter.jpa.AttributePath;
  * @author jcruz
  *
  */
-public class NotEqualsToPredicate extends BasePredicate {
+public class NotEqualsToPredicate extends AbstractPredicate {
 
 	@Override
 	public String toSql() {

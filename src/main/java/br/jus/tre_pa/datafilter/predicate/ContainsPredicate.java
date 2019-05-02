@@ -11,7 +11,7 @@ import javax.persistence.criteria.Root;
 
 import br.jus.tre_pa.datafilter.jpa.AttributePath;
 
-public class ContainsPredicate extends BasePredicate {
+public class ContainsPredicate extends AbstractPredicate {
 
 	@Override
 	public String toSql() {

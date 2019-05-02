@@ -27,13 +27,13 @@ public class DataFilterConfiguration {
 	@Bean
 	public SqlContext qyContext() throws SQLException, IllegalAccessException {
 		if (datasource.getConnection().getMetaData().getDatabaseProductName().equalsIgnoreCase("h2")) {
-			log.info("JiiContext definido para o H2.");
+			log.info("Data Context definido para o H2.");
 			return new H2ContextImpl(jdbcTemplate);
 		} else if (datasource.getConnection().getMetaData().getDatabaseProductName().equalsIgnoreCase("Oracle")) {
-			log.info("JiiContext definido para o Oracle.");
+			log.info("Data Context definido para o Oracle.");
 			return new OracleContextImpl(jdbcTemplate);
 		}
-		throw new IllegalAccessException("Implementação do QyContext não encontada");
+		throw new IllegalAccessException("Nenhuma implementação de contexto de dados encontado.");
 	}
 
 }
