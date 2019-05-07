@@ -1,7 +1,5 @@
 package br.jus.tre_pa.datafilter.rest;
 
-import javax.annotation.PostConstruct;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.core.ResolvableType;
@@ -35,6 +33,7 @@ public abstract class AbstractDataFilterRest<T, ID, S extends AbstractSpecificat
 	private Class<S> specificationClass;
 
 	@Getter
+	@Autowired
 	private R repository;
 
 	@Autowired
@@ -45,12 +44,6 @@ public abstract class AbstractDataFilterRest<T, ID, S extends AbstractSpecificat
 		super();
 		this.entityClass = (Class<T>) ResolvableType.forClass(this.getClass()).getSuperType().getGeneric(0).getRawClass();
 		this.specificationClass = (Class<S>) ResolvableType.forClass(this.getClass()).getSuperType().getGeneric(2).getRawClass();
-	}
-
-	@SuppressWarnings("unchecked")
-	@PostConstruct
-	protected void init() {
-		this.repository = (R) appContext.getBean(ResolvableType.forClass(this.getClass()).getSuperType().getGeneric(3).getRawClass());
 	}
 
 	/**
