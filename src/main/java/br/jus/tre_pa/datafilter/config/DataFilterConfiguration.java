@@ -26,6 +26,7 @@ public class DataFilterConfiguration {
 
 	@Bean
 	public SqlContext qyContext() throws SQLException, IllegalAccessException {
+		log.info("Iniciando configurações do SqlContext: {}", datasource.getConnection().getMetaData().getDatabaseProductName());
 		if (datasource.getConnection().getMetaData().getDatabaseProductName().equalsIgnoreCase("h2")) {
 			log.info("Data Context definido para o H2.");
 			return new H2ContextImpl(jdbcTemplate);
